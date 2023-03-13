@@ -1,13 +1,16 @@
-import React from 'react';
 import './App.css';
 import Map from './components/Map'
 import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar';
 
 function App() {
   return (
-    <div>
+    <div className="main">
       <Navbar/>
-      <Map/>
+      <div className="content">
+        <Sidebar/>
+        <Map/>
+      </div>
     </div>
   );
 }

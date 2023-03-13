@@ -1,0 +1,7 @@
+.map {
+    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    border-radius: 1em;
+    margin: 1em
+}

@@ -1,0 +1,9 @@
+.sidebar {
+    margin: 10px;
+    min-width: 300px;
+}
+
+.input {
+    display: flex;
+    gap: 0.5em;
+}
