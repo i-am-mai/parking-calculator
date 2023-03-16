@@ -16,6 +16,10 @@
     font-size: large !important;
 }
 
+#spinner {
+    margin: auto;
+}
+
 @media only screen and (max-width: 768px) {
     .sidebar {
         width: 100%;
