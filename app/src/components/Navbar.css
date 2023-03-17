@@ -1,3 +1,8 @@
 .header {
     flex: 0 1 auto;
+    padding: 0.5em 1em !important;
+}
+
+#brand {
+    margin-left: 0.5em;
 }
