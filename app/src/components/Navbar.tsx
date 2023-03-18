@@ -1,7 +1,9 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import logo from '../logo.svg'
-import './Navbar.css'
+import Image from 'react-bootstrap/Image';
+import Logo from '../static/logo.svg';
+import Github from '../static/github.svg';
+import './Navbar.css';
 
 
 export default function renderNavbar() {
@@ -10,7 +12,7 @@ export default function renderNavbar() {
             <Navbar.Brand href="/" id="brand">
                 <img
                     alt=""
-                    src={logo}
+                    src={Logo}
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
@@ -21,7 +23,9 @@ export default function renderNavbar() {
             <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
                 <Nav>
                     <Nav.Link href="/about">About</Nav.Link>
-                    <Nav.Link href="https://github.com/i-am-mai/parking">Contribute</Nav.Link>
+                    <Nav.Link href="https://github.com/i-am-mai/parking">
+                        <Image fluid={true} src={Github}/>
+                    </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

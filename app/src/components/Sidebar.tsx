@@ -5,12 +5,16 @@ import Spinner from 'react-bootstrap/Spinner';
 import SearchResults from './SearchResults';
 import "./Sidebar.css"
 
-export default function Sidebar() {
+type SidebarProps = {
+    setBoundingBox: (bbox: [[number, number], [number, number]]) => void;
+}
+
+export default function Sidebar({setBoundingBox}: SidebarProps) {
     const [data, setData] = useState([]);
     const [spinner, setSpinner] = useState(false);
 
 
-    function handleSubmit(event : React.FormEvent<HTMLFormElement>) {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setSpinner(true);
         let query = (event.target as HTMLFormElement).search.value;
@@ -28,8 +32,7 @@ export default function Sidebar() {
         results = <Spinner animation="border" id="spinner"></Spinner>
     }
     else {
-        results = <SearchResults results={data} />
-
+        results = <SearchResults results={data} onClick={setBoundingBox}/>
     }
 
     return (
