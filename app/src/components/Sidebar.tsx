@@ -4,9 +4,11 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import SearchResults from './SearchResults';
 import "./Sidebar.css"
+import { LatLngBounds } from 'leaflet';
+
 
 type SidebarProps = {
-    setBoundingBox: (bbox: [[number, number], [number, number]]) => void;
+    setBoundingBox: (bbox: LatLngBounds) => void;
 }
 
 export default function Sidebar({setBoundingBox}: SidebarProps) {

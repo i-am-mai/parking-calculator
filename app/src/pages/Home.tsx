@@ -2,10 +2,15 @@ import { useState } from 'react';
 import Map from '../components/Map';
 import Sidebar from '../components/Sidebar';
 import './Home.css';
+import { LatLngBounds, LatLng } from 'leaflet';
+
 
 export default function Home() {
-    const [boundingBox, setBoundingBox] = useState<[[number, number], [number, number]]>([[-40, -130],[60, 130]]);
-    function updateBoundingBox(bbox: [[number, number], [number, number]]) {
+    let bounds = new LatLngBounds(new LatLng(-40, -130), new LatLng(60, 130))
+
+
+    const [boundingBox, setBoundingBox] = useState<LatLngBounds>(bounds);
+    function updateBoundingBox(bbox: LatLngBounds) {
         setBoundingBox(bbox);
     }
 

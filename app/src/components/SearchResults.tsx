@@ -1,27 +1,26 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import './SearchResults.css'
+import { LatLngBounds, LatLng } from 'leaflet';
+
 
 type SearchResultsProps = {
     results: {
         "boundingbox": string[],
         "display_name": string,
     }[] | null;
-    onClick: (bbox: [[number, number], [number, number]]) => void;
+    onClick: (bbox: LatLngBounds) => void;
 }
 
 
 export default function SearchResults({ results, onClick }: SearchResultsProps) {
     function handleClick(event: React.MouseEvent) {
         const index: number = Number((event.target as HTMLAnchorElement).getAttribute('data-key'));
-        let bbox: [[number, number], [number, number]] = [[0, 0], [0, 0]];
+        let bbox: LatLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(0, 0));
 
         if (results != null && index != null) {
-            bbox[0][0] = Number(results[index]["boundingbox"][0]);
-            bbox[0][1] = Number(results[index]["boundingbox"][2]);
-            bbox[1][0] = Number(results[index]["boundingbox"][1]);
-            bbox[1][1] = Number(results[index]["boundingbox"][3]);
+            bbox = new LatLngBounds(new LatLng(Number(results[index]["boundingbox"][0]), Number(results[index]["boundingbox"][2])), new LatLng(Number(results[index]["boundingbox"][1]), Number(results[index]["boundingbox"][3])));
+            console.log(bbox);
         }
-
         onClick(bbox);
         console.log(bbox);
     }

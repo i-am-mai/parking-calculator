@@ -35,7 +35,42 @@ app.get('/search', (req, res) => {
         response.on('end', () => {
             res.setHeader('Content-Type', 'application/json');
             res.send(data);
-        })
+        });
+    });
+
+    request.on('error', (e) => {
+        console.error(e);
+    });
+
+    request.end();
+});
+
+app.get('/parking', (req, res) => {
+    let bbox = req.query.bbox;
+    const url = new URL("https://overpass-api.de/api/interpreter");
+
+    let parkingQuery = `
+    [out:json][timeout:25];
+    (
+        way["amenity"="parking"](${bbox});
+        relation["amenity"="parking"](${bbox});
+        way["highway"]["parking:lane:both"](${bbox});
+    );
+    out body;
+    >;
+    out skel qt;`;
+
+    url.searchParams.append('data', parkingQuery);
+    const request = https.request(url, response => {
+        let data = '';
+        response.on('data', (chunk) => {
+            data = data + chunk.toString();
+        });
+        
+        response.on('end', () => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data);
+        });
     });
 
     request.on('error', (e) => {

@@ -1,21 +1,43 @@
-import { useEffect } from 'react';
-import { MapContainer, TileLayer, useMap} from 'react-leaflet';
+import { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, useMap, GeoJSON, useMapEvent} from 'react-leaflet';
 import "./Map.css";
+import { LatLngBounds } from 'leaflet';
 
 type MapProps = {
-  boundingBox: [[number, number],[number, number]];
-  setBoundingBox: (bbox: [[number, number], [number, number]]) => void;
+  boundingBox: LatLngBounds;
+  setBoundingBox: (bbox: LatLngBounds) => void;
 }
 
 export default function Map({boundingBox, setBoundingBox}: MapProps) {
+  // useEffect(() => {
+  //   fetch(`/parking?bbox=${boundingBox[0][0]},${boundingBox[0][1]},${boundingBox[1][0]},${boundingBox[1][1]}`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       var hash = require('object-hash');
+  //       const parkingData = data;
+  //       const style = {
+  //         "color": "blue",
+
+  //       };
+  //       const parkingLayer = <GeoJSON key={hash(parkingData)} data={parkingData} style={style}></GeoJSON>
+  //       setParkingLayer(parkingLayer);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     })
+  // });
 
   function MapWrapper() {
     const map = useMap();
+    // const event = useMapEvent('moveend', () => {
+    //   const newBounds = map.getBounds();
+    //   setBoundingBox(newBounds);
+    // });
 
     useEffect(() => {
       map.fitBounds(boundingBox);
     }, [map]);
-    
+
     return (
       <>
       </>
