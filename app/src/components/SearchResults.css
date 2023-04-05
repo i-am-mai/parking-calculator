@@ -10,6 +10,7 @@
 @media only screen and (max-width: 768px) {
     .results {
         display: flex;
+        flex-direction: column !important;
         height: 200px;
         margin: 0.5em 0em;
         overflow: scroll;

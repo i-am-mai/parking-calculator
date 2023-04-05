@@ -1,12 +1,12 @@
-import Container from 'react-bootstrap/Container';
+import Box from "@mui/material/Box/Box";
 
 export default function About() {
     return (
-        <Container>
+        <Box>
             <h1>About this website</h1>
             <p>
                 This website was inspired by the 
             </p>
-        </Container>
+        </Box>
     );
 }

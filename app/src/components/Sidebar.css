@@ -6,14 +6,18 @@
     bottom: 0;
 }
 
-.input {
+.form-input {
     display: flex;
     gap: 0.5em;
 }
 
 .calculate {
-    margin-top: auto;
+    margin-top: auto !important;
     font-size: large !important;
+}
+
+button {
+    text-transform: none !important;
 }
 
 #spinner {

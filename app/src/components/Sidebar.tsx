@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Spinner from 'react-bootstrap/Spinner';
+import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import SearchResults from './SearchResults';
 import "./Sidebar.css"
 import { LatLngBounds } from 'leaflet';
@@ -61,7 +61,7 @@ export default function Sidebar({boundingBox, setBoundingBox, setParkingData}: S
     let results;
 
     if (spinner) {
-        results = <Spinner animation="border" id="spinner"></Spinner>
+        results = <CircularProgress id="spinner"/>
     }
     else {
         results = <SearchResults results={data} onClick={setBoundingBox}/>
@@ -69,12 +69,12 @@ export default function Sidebar({boundingBox, setBoundingBox, setParkingData}: S
 
     return (
         <div className="sidebar">
-            <form onSubmit={handleSubmit} className="input">
-                <Form.Control name="search" placeholder="ex. New York, NY"></Form.Control>
-                <Button variant="secondary" type="submit">Search</Button>    
+            <form onSubmit={handleSubmit} className="form-input">
+                <TextField variant="outlined" size="small" fullWidth label="Search for a location" name="search" placeholder="ex. New York, NY" id="search"></TextField>
+                <Button variant="outlined" type="submit">Search</Button>    
             </form>
             {results}
-            <Button variant="primary" className="calculate" onClick={handleCalculateParking}>Calculate parking area</Button>
+            <Button variant="contained" className="calculate" onClick={handleCalculateParking}>Calculate parking area</Button>
         </div>
     );
 }

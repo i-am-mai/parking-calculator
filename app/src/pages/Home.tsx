@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Map from '../components/Map';
 import Sidebar from '../components/Sidebar';
-import ParkingResults from '../components/ParkingResults';
 import './Home.css';
 import { LatLngBounds, LatLng } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';

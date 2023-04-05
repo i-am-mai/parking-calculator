@@ -23,7 +23,7 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
     return (
         <>
             <Button onClick={handleShow}>Show</Button>
-            <Offcanvas show={show} onHide={handleClose}>
+            <Offcanvas show={show} onHide={handleClose} placement="bottom">
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>
                         Total Parking Area: {parkingArea} m<sup>2</sup>

@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, useMap, GeoJSON} from 'react-leaflet';
 import "./Map.css";
 import { LatLngBounds } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
+import ParkingResults from './ParkingResults';
 
 type MapProps = {
   boundingBox: LatLngBounds;
@@ -41,13 +42,16 @@ export default function Map({boundingBox, setBoundingBox, parkingData}: MapProps
   }
 
   return (
-    <MapContainer bounds={boundingBox} scrollWheelZoom={true} className="map">
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <MapWrapper></MapWrapper>
-      <GeoJSONLayer></GeoJSONLayer>
-    </MapContainer>
+    <>
+      <MapContainer bounds={boundingBox} scrollWheelZoom={true} className="map">
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <MapWrapper></MapWrapper>
+        <GeoJSONLayer></GeoJSONLayer>
+      </MapContainer>
+      <ParkingResults parkingData={parkingData}></ParkingResults>
+    </>
   );
 }

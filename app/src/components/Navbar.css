@@ -6,3 +6,8 @@
 #brand {
     margin-left: 0.5em;
 }
+
+a {
+    text-decoration: none !important;
+}
+

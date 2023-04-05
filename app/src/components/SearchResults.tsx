@@ -1,4 +1,7 @@
-import ListGroup from "react-bootstrap/ListGroup";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import './SearchResults.css'
 import { LatLngBounds, LatLng } from 'leaflet';
 
@@ -13,8 +16,11 @@ type SearchResultsProps = {
 
 
 export default function SearchResults({ results, onClick }: SearchResultsProps) {
-    function handleClick(event: React.MouseEvent) {
-        const index: number = Number((event.target as HTMLAnchorElement).getAttribute('data-key'));
+    const handleClick = (
+        event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+        index: number,
+      ) => {
+        console.log(index);
         let bbox: LatLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(0, 0));
 
         if (results != null && index != null) {
@@ -29,9 +35,11 @@ export default function SearchResults({ results, onClick }: SearchResultsProps) 
     if (results != null) {
         results.forEach((result, index) => {
             searchResults.push(
-                <ListGroup.Item action key={index} data-key={index} onClick={handleClick}>
-                    {result['display_name']}
-                </ListGroup.Item>
+                <ListItem disablePadding divider key={index} data-key={index} onClick={event => handleClick(event, index)}>
+                    <ListItemButton>
+                        <ListItemText>{result['display_name']}</ListItemText>
+                    </ListItemButton>
+                </ListItem>
             );
         });
     }
@@ -41,9 +49,9 @@ export default function SearchResults({ results, onClick }: SearchResultsProps) 
     }
     else {
         return (
-            <ListGroup className="results">
+            <List className="results">
                 {searchResults}
-            </ListGroup>
+            </List>
         );
     }
 }
