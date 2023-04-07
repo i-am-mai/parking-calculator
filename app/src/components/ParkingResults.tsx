@@ -1,7 +1,7 @@
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import { area } from '@turf/turf';
 import { useState } from 'react';
-import { Button, Offcanvas} from 'react-bootstrap';
+import { Box, Typography, Fab, Drawer } from '@mui/material';
 
 type ParkingResultsProps = {
     parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
@@ -22,17 +22,31 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
 
     return (
         <>
-            <Button onClick={handleShow}>Show</Button>
-            <Offcanvas show={show} onHide={handleClose} placement="bottom">
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>
-                        Total Parking Area: {parkingArea} m<sup>2</sup>
-                    </Offcanvas.Title>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
-                    Or, {parkingArea / 2.59e6} mi<sup>2</sup>
-                </Offcanvas.Body>
-            </Offcanvas>
+            <Fab 
+                onClick={handleShow} 
+                color="primary" 
+                variant="extended"
+                sx={{
+                    position: "fixed",
+                    bottom: (theme) => theme.spacing(2),
+                    right: (theme) => theme.spacing(2),
+                }}>
+                Show results
+            </Fab>
+            <Drawer
+                anchor="bottom"
+                open={show}
+                onClose={handleClose}
+            >
+                <Box sx={{py: '1em', pl: '2em'}}>
+                    <Typography variant='h4' mb='0.5em'>
+                        <span style={{fontWeight: '500'}}>Total Parking Area:</span> {(parkingArea / 2.59e6).toPrecision(3)} mi<sup>2</sup> ({(parkingArea / 1e6).toPrecision(3)} km<sup>2</sup>)
+                    </Typography>
+                    <Typography variant='h5'>
+                        Or, about {Math.round(parkingArea / 16.7).toLocaleString()} parking spaces.
+                    </Typography>
+                </Box>
+            </Drawer>
         </>
     )
 }

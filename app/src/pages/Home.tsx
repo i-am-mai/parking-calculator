@@ -10,6 +10,7 @@ export default function Home() {
 
     const [boundingBox, setBoundingBox] = useState<LatLngBounds>(bounds);
     const [parkingData, setParkingData] = useState<FeatureCollection<Geometry, GeoJsonProperties> | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     function updateBoundingBox(bbox: LatLngBounds) {
         setBoundingBox(bbox);
@@ -19,10 +20,14 @@ export default function Home() {
         setParkingData(parkingData);
     }
 
+    function updateIsLoading(isLoading: boolean) {
+        setIsLoading(isLoading);
+    }
+
     return (
         <div className="content">
-            <Sidebar boundingBox={boundingBox} setBoundingBox={updateBoundingBox} setParkingData={updateParkingData}/>
-            <Map boundingBox={boundingBox} setBoundingBox={updateBoundingBox} parkingData={parkingData}/>
+            <Sidebar boundingBox={boundingBox} setBoundingBox={updateBoundingBox} setParkingData={updateParkingData} setIsLoading={updateIsLoading}/>
+            <Map boundingBox={boundingBox} setBoundingBox={updateBoundingBox} parkingData={parkingData} isLoading={isLoading}/>
         </div>
     );
 }

@@ -2,7 +2,6 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -22,7 +21,6 @@
     "object-hash": "^3.0.0",
     "osmtogeojson": "^3.0.0-beta.5",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.9.0",

@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
+import { TextField, CircularProgress, Button } from '@mui/material';
 import SearchResults from './SearchResults';
 import "./Sidebar.css"
 import { LatLngBounds } from 'leaflet';
@@ -12,9 +10,10 @@ type SidebarProps = {
     boundingBox: LatLngBounds,
     setBoundingBox: (bbox: LatLngBounds) => void;
     setParkingData: (parkingData : FeatureCollection<Geometry, GeoJsonProperties>) => void;
+    setIsLoading: (isLoading: boolean) => void;
 }
 
-export default function Sidebar({boundingBox, setBoundingBox, setParkingData}: SidebarProps) {
+export default function Sidebar({boundingBox, setBoundingBox, setParkingData, setIsLoading}: SidebarProps) {
     const [data, setData] = useState([]);
     const [spinner, setSpinner] = useState(false);
 
@@ -36,6 +35,7 @@ export default function Sidebar({boundingBox, setBoundingBox, setParkingData}: S
 
     function handleCalculateParking(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
+        setIsLoading(true);
         let bbox: string = String(boundingBox.getSouth()) + "," + String(boundingBox.getWest()) + "," + String(boundingBox.getNorth())+ "," + String(boundingBox.getEast());
         const url = new URL("https://overpass-api.de/api/interpreter");
 
@@ -55,6 +55,7 @@ export default function Sidebar({boundingBox, setBoundingBox, setParkingData}: S
             .then((data : JSON) => {
                 let geoJSONData: FeatureCollection<Geometry, GeoJsonProperties> = osmtogeojson(data);
                 setParkingData(geoJSONData);
+                setIsLoading(false);
             });
     }
 

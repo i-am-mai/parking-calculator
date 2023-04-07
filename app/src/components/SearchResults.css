@@ -1,5 +1,6 @@
 .results {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: inline-block;
     height: 480px;
     margin-top: 0.5em;

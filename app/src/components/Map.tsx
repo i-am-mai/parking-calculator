@@ -4,14 +4,16 @@ import "./Map.css";
 import { LatLngBounds } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import ParkingResults from './ParkingResults';
+import {CircularProgress, Backdrop} from '@mui/material';
 
 type MapProps = {
   boundingBox: LatLngBounds;
   setBoundingBox: (bbox: LatLngBounds) => void;
   parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
+  isLoading: boolean;
 }
 
-export default function Map({boundingBox, setBoundingBox, parkingData}: MapProps) {
+export default function Map({boundingBox, setBoundingBox, parkingData, isLoading}: MapProps) {
   function MapWrapper() {
     const map = useMap();
 
@@ -41,6 +43,14 @@ export default function Map({boundingBox, setBoundingBox, parkingData}: MapProps
     }
   }
 
+  function LoadingLayer() {
+    return (
+      <Backdrop open={isLoading} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <CircularProgress color="inherit"></CircularProgress>
+      </Backdrop>
+    );
+  }
+
   return (
     <>
       <MapContainer bounds={boundingBox} scrollWheelZoom={true} className="map">
@@ -52,6 +62,7 @@ export default function Map({boundingBox, setBoundingBox, parkingData}: MapProps
         <GeoJSONLayer></GeoJSONLayer>
       </MapContainer>
       <ParkingResults parkingData={parkingData}></ParkingResults>
+      <LoadingLayer></LoadingLayer>
     </>
   );
 }
