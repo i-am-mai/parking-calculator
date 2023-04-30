@@ -1,8 +1,11 @@
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import { area } from '@turf/turf';
 import { useState } from 'react';
-import { Box, Typography, Fab, Drawer } from '@mui/material';
+import { Typography, Fab, Dialog, DialogTitle, DialogContent, Button, IconButton } from '@mui/material';
 import comparisons from '../static/comparisons.json'
+import './ParkingResults.css';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 var pluralize = require('pluralize')
 
@@ -19,7 +22,7 @@ function generateRandom(parkingArea: number) : string {
 }
 
 export default function ParkingResults({parkingData} : ParkingResultsProps) {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     let parkingArea: number = 0;
     if (parkingData != null) {
         parkingArea = area(parkingData);
@@ -38,32 +41,44 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
         <>
             <Fab 
                 onClick={handleShow} 
-                color="primary" 
+                color="info" 
                 variant="extended"
                 sx={{
                     position: "fixed",
                     bottom: (theme) => theme.spacing(2),
                     right: (theme) => theme.spacing(2),
                 }}>
-                Show results
+                Results
             </Fab>
-            <Drawer
-                anchor="bottom"
+            <Dialog
                 open={show}
                 onClose={handleClose}
             >
-                <Box sx={{py: '1em', px: '1em', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <Typography variant='h4' mb='0.5em'>
-                        <span style={{fontWeight: '500'}}>Total Parking Area:</span> {(parkingArea / 2.59e6).toPrecision(3)} mi<sup>2</sup> ({(parkingArea / 1e6).toPrecision(3)} km<sup>2</sup>)
+                <DialogTitle className="dialog-title">
+                    Results
+                    <IconButton
+                    aria-label="close"
+                    onClick={handleClose}
+                    sx={{
+                        marginLeft: "auto",
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                    >
+                    <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent dividers className="dialog-content">
+                    <Typography variant="body1">
+                        Total parking area: <span className="result-text">{(parkingArea / 2.59e6).toPrecision(3)} mi<sup>2</sup></span> ({(parkingArea / 1e6).toPrecision(3)} km<sup>2</sup>)
                     </Typography>
-                    <Typography variant='h5'>
-                        Or, about {Math.round(parkingArea / 16.7).toLocaleString()} parking spaces.
+                    <Typography variant="body1">
+                        Or, about <span className="result-text">{Math.round(parkingArea / 16.7).toLocaleString()}</span> parking spaces.
                     </Typography>
-                    <Typography variant='h6'>
+                    <Typography variant="body2">
                         {comparisonString}
                     </Typography>
-                </Box>
-            </Drawer>
+                </DialogContent>
+            </Dialog>
         </>
     )
 }
