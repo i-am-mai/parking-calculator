@@ -7,13 +7,13 @@ import osmtogeojson from 'osmtogeojson';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 
 type SidebarProps = {
-    boundingBox: LatLngBounds,
     setBoundingBox: (bbox: LatLngBounds) => void;
     setParkingData: (parkingData : FeatureCollection<Geometry, GeoJsonProperties>) => void;
     setIsLoading: (isLoading: boolean) => void;
+    selectedArea: LatLngBounds;
 }
 
-export default function Sidebar({boundingBox, setBoundingBox, setParkingData, setIsLoading}: SidebarProps) {
+export default function Sidebar({setBoundingBox, setParkingData, setIsLoading, selectedArea}: SidebarProps) {
     const [data, setData] = useState([]);
     const [spinner, setSpinner] = useState(false);
 
@@ -36,7 +36,7 @@ export default function Sidebar({boundingBox, setBoundingBox, setParkingData, se
     function handleCalculateParking(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setIsLoading(true);
-        let bbox: string = String(boundingBox.getSouth()) + "," + String(boundingBox.getWest()) + "," + String(boundingBox.getNorth())+ "," + String(boundingBox.getEast());
+        let bbox: string = String(selectedArea.getSouth()) + "," + String(selectedArea.getWest()) + "," + String(selectedArea.getNorth())+ "," + String(selectedArea.getEast());
         const url = new URL("https://overpass-api.de/api/interpreter");
 
         let parkingQuery = `

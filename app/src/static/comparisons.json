@@ -1,0 +1,98 @@
+[
+    {
+        "name": "football field",
+        "size": 5350
+    },
+    {
+        "name": "soccer field",
+        "size": 7400
+    },
+    {
+        "name": "city block",
+        "size": 3700
+    },
+    {
+        "name": "Disneyland",
+        "size": 404686
+    },
+    {
+        "name": "movie screen",
+        "size": 352
+    },
+    {
+        "name": "Boeing 747 wing",
+        "size": 525
+    },
+    {
+        "name": "Central Park",
+        "size": 3399359
+    },
+    {
+        "name": "Pyramid of Giza",
+        "size": 53055
+    },
+    {
+        "name": "Taj Mahal",
+        "size": 170000
+    },
+    {
+        "name": "Vatican City",
+        "size": 445154
+    },
+    {
+        "name": "Sydney Opera House",
+        "size": 18000
+    },
+    {
+        "name": "banana",
+        "size": 0.007934
+    },
+    {
+        "name": "blue whale",
+        "size": 3150
+    },
+    {
+        "name": "blue whale",
+        "size": 3150
+    },
+    {
+        "name": "Great Sphinx of Giza",
+        "size": 1382
+    },
+    {
+        "name": "Colosseum",
+        "size": 29491
+    },
+    {
+        "name": "RTX 4090",
+        "size": 0.0374
+    },
+    {
+        "name": "Fortnite map",
+        "size": 9000000
+    },
+    {
+        "name": "Bee Movie script",
+        "size": 1625
+    },
+    {
+        "name": "Lego brick",
+        "size": 7.68e-5
+    },
+    {
+        "name": "bread slice",
+        "size": 0.0116
+    },
+    {
+        "name": "Acropolis",
+        "size": 59500
+    },
+    {
+        "name": "Buckingham Palace",
+        "size": 12960
+    },
+    {
+        "name": "Titanic",
+        "size": 7589
+    }
+]

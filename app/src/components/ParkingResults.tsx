@@ -2,9 +2,20 @@ import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import { area } from '@turf/turf';
 import { useState } from 'react';
 import { Box, Typography, Fab, Drawer } from '@mui/material';
+import comparisons from '../static/comparisons.json'
+
+var pluralize = require('pluralize')
 
 type ParkingResultsProps = {
     parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
+}
+
+let comparisonString = "";
+
+function generateRandom(parkingArea: number) : string {
+    let index = Math.floor(Math.random() * comparisons.length);
+    let count = parkingArea / comparisons[index].size;
+    return `That's ${(Math.round(count)).toLocaleString()} ${pluralize(comparisons[index].name, Math.round(count))}!`
 }
 
 export default function ParkingResults({parkingData} : ParkingResultsProps) {
@@ -18,7 +29,10 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
     }
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true);
+        comparisonString = generateRandom(parkingArea);
+    }
 
     return (
         <>
@@ -38,12 +52,15 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
                 open={show}
                 onClose={handleClose}
             >
-                <Box sx={{py: '1em', pl: '2em'}}>
+                <Box sx={{py: '1em', px: '1em', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <Typography variant='h4' mb='0.5em'>
                         <span style={{fontWeight: '500'}}>Total Parking Area:</span> {(parkingArea / 2.59e6).toPrecision(3)} mi<sup>2</sup> ({(parkingArea / 1e6).toPrecision(3)} km<sup>2</sup>)
                     </Typography>
                     <Typography variant='h5'>
                         Or, about {Math.round(parkingArea / 16.7).toLocaleString()} parking spaces.
+                    </Typography>
+                    <Typography variant='h6'>
+                        {comparisonString}
                     </Typography>
                 </Box>
             </Drawer>
