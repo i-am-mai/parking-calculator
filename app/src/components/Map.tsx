@@ -9,6 +9,8 @@ import {CircularProgress, Backdrop} from '@mui/material';
 import { area } from '@turf/turf';
 
 type MapProps = {
+  show: boolean;
+  setShow: (show: boolean) => void;
   boundingBox: LatLngBounds;
   setBoundingBox: (bbox: LatLngBounds) => void;
   parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
@@ -17,8 +19,9 @@ type MapProps = {
   setSelectedArea: (bbox: LatLngBounds) => void;
 }
 
-export default function Map({boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
+export default function Map({show, setShow, boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
   let previousLayer: any = null;
+
 
   function handleCreated(event: any) {
     const { layer } = event;
@@ -130,7 +133,7 @@ export default function Map({boundingBox, setBoundingBox, parkingData, isLoading
         </FeatureGroup>
         <MapWrapper></MapWrapper>
       </MapContainer>
-      <ParkingResults parkingData={parkingData}></ParkingResults>
+      <ParkingResults show={show} setShow={setShow} boundingBox={boundingBox} parkingData={parkingData}></ParkingResults>
       <LoadingLayer></LoadingLayer>
     </>
   );

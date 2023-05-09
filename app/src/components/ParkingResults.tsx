@@ -1,28 +1,25 @@
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import { area } from '@turf/turf';
-import { useState } from 'react';
-import { Typography, Fab, Dialog, DialogTitle, DialogContent, Button, IconButton } from '@mui/material';
-import comparisons from '../static/comparisons.json'
+import { Typography, Fab, Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
 import './ParkingResults.css';
 import CloseIcon from '@mui/icons-material/Close';
+import { LatLngBounds } from 'leaflet';
+import bboxPolygon from "@turf/bbox-polygon";
 
-
-var pluralize = require('pluralize')
 
 type ParkingResultsProps = {
+    setShow: (show: boolean) => void;
+    show: boolean;
+    boundingBox: LatLngBounds;
     parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
 }
 
-let comparisonString = "";
-
-function generateRandom(parkingArea: number) : string {
-    let index = Math.floor(Math.random() * comparisons.length);
-    let count = parkingArea / comparisons[index].size;
-    return `That's ${(Math.round(count)).toLocaleString()} ${pluralize(comparisons[index].name, Math.round(count))}!`
+function calculateBBoxArea(bbox: LatLngBounds) {
+    let polygon = bboxPolygon([bbox.getSouthWest().lng, bbox.getSouthWest().lat, bbox.getNorthEast().lng, bbox.getNorthEast().lat]);
+    return area(polygon);
 }
 
-export default function ParkingResults({parkingData} : ParkingResultsProps) {
-    const [show, setShow] = useState(true);
+export default function ParkingResults({setShow, show, boundingBox, parkingData} : ParkingResultsProps) {
     let parkingArea: number = 0;
     if (parkingData != null) {
         parkingArea = area(parkingData);
@@ -34,7 +31,6 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
     const handleClose = () => setShow(false);
     const handleShow = () => {
         setShow(true);
-        comparisonString = generateRandom(parkingArea);
     }
 
     return (
@@ -72,11 +68,14 @@ export default function ParkingResults({parkingData} : ParkingResultsProps) {
                         Total parking area: <span className="result-text">{(parkingArea / 2.59e6).toPrecision(3)} mi<sup>2</sup></span> ({(parkingArea / 1e6).toPrecision(3)} km<sup>2</sup>)
                     </Typography>
                     <Typography variant="body1">
-                        Or, about <span className="result-text">{Math.round(parkingArea / 16.7).toLocaleString()}</span> parking spaces.
+                        Parking spaces: about <span className="result-text">{Math.round(parkingArea / 16.7).toLocaleString()}</span> spaces
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body1">
+                        Percent of bounded area: <span className="result-text">{(parkingArea * 100 / calculateBBoxArea(boundingBox)).toPrecision(3)}%</span>
+                    </Typography>
+                    {/* <Typography variant="body2">
                         {comparisonString}
-                    </Typography>
+                    </Typography> */}
                 </DialogContent>
             </Dialog>
         </>

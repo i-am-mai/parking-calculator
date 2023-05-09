@@ -7,13 +7,14 @@ import osmtogeojson from 'osmtogeojson';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 
 type SidebarProps = {
+    setShow: (show: boolean) => void;
     setBoundingBox: (bbox: LatLngBounds) => void;
     setParkingData: (parkingData : FeatureCollection<Geometry, GeoJsonProperties>) => void;
     setIsLoading: (isLoading: boolean) => void;
     selectedArea: LatLngBounds;
 }
 
-export default function Sidebar({setBoundingBox, setParkingData, setIsLoading, selectedArea}: SidebarProps) {
+export default function Sidebar({setShow, setBoundingBox, setParkingData, setIsLoading, selectedArea}: SidebarProps) {
     const [data, setData] = useState([]);
     const [spinner, setSpinner] = useState(false);
 
@@ -56,6 +57,7 @@ export default function Sidebar({setBoundingBox, setParkingData, setIsLoading, s
                 let geoJSONData: FeatureCollection<Geometry, GeoJsonProperties> = osmtogeojson(data);
                 setParkingData(geoJSONData);
                 setIsLoading(false);
+                setShow(true);
             });
     }
 
