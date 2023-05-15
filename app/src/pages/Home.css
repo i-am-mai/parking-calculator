@@ -9,9 +9,9 @@
 @media only screen and (max-width: 768px) {
     .content {
         display: flex;
-        flex: 1 1 auto;
         flex-direction: column;
         gap: 1em;
         margin: 1em;
+        padding-bottom: 1em;
     }
 }
