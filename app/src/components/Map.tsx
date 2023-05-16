@@ -98,7 +98,7 @@ export default function Map({show, setShow, boundingBox, setBoundingBox, parking
         
         {
           parkingData != null && 
-          <LayersControl position="topright">
+          <LayersControl position="topright" collapsed={false}>
             <LayersControl.Overlay name="Show parking" checked>
               <GeoJSONLayer></GeoJSONLayer>
             </LayersControl.Overlay>

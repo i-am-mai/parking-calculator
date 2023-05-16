@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Map from '../components/Map';
 import Sidebar from '../components/Sidebar';
 import './Home.css';
+import Tutorial from '../components/Tutorial';
 import { LatLngBounds, LatLng } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 
@@ -36,6 +37,7 @@ export default function Home() {
 
     return (
         <>
+            <Tutorial></Tutorial>
             <div className="content">
                 <Sidebar setShow={updateShow} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setParkingData={updateParkingData} setIsLoading={updateIsLoading}/>
                 <Map show={show} setShow={updateShow} boundingBox={boundingBox} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setSelectedArea={updateSelectedArea} parkingData={parkingData} isLoading={isLoading}/>
