@@ -6,7 +6,7 @@ import { LatLngBounds } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import ParkingResults from './ParkingResults';
 import {CircularProgress, Backdrop} from '@mui/material';
-import { area } from '@turf/turf';
+import { area, featureCollection, buffer, Feature } from '@turf/turf';
 
 type MapProps = {
   show: boolean;
@@ -67,10 +67,36 @@ export default function Map({show, setShow, boundingBox, setBoundingBox, parking
       return <></>
     }
   }
+  
+  function calculateParkingArea(parkingData: FeatureCollection<Geometry, GeoJsonProperties>): number {
+    const turfGeoJSON = featureCollection(parkingData.features);
+    const lines: Feature<Geometry, GeoJsonProperties>[] = [];
+    const polygons: Feature<Geometry, GeoJsonProperties>[] = [];
+
+    turfGeoJSON.features.forEach(feature => {
+        if (feature.geometry.type === "LineString" || feature.geometry.type === "MultiLineString") {
+            lines.push(feature);
+        }
+        else if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon") {
+            polygons.push(feature);
+        }
+    })
+
+    const bufferWidth = 1.7; // Minimum parking space width is 1.7 meters in the US
+
+    const bufferedParkingFeatures = lines.map(feature => {
+        const bufferedFeature = buffer(feature, bufferWidth, {units: 'meters'});
+        return bufferedFeature;
+    })
+
+    const newStreetParkingData = featureCollection(bufferedParkingFeatures);
+    const polygonData = featureCollection(polygons);
+    return area(newStreetParkingData) + area(polygonData);
+  }
 
   function CircleLayer() {
     if (parkingData != null) {
-      let parkingArea = area(parkingData);
+      let parkingArea = calculateParkingArea(parkingData);
       let radius = Math.sqrt(parkingArea / Math.PI);
       let center = selectedArea.getCenter();
       return <Circle radius={radius} center={center} color="purple" opacity={0.5}></Circle>
