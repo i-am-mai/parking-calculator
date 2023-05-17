@@ -100,9 +100,6 @@ export default function ParkingResults({setShow, show, boundingBox, parkingData}
                         <Typography variant="body1">
                             Percent of bounded area: <span className="result-text">{(parkingArea * 100 / calculateBBoxArea(boundingBox)).toPrecision(3)}%</span>
                         </Typography>
-                        {/* <Typography variant="body2">
-                            {comparisonString}
-                        </Typography> */}
                     </DialogContent>
                 </Dialog>
             </>

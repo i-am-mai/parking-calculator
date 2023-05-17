@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import './Navbar.css';
 import { Box, IconButton, Menu, SvgIcon, Typography } from '@mui/material';
 import { useState } from 'react';
+import { GitHub } from '@mui/icons-material'
 
 
 export default function Navbar() {
@@ -67,14 +68,13 @@ export default function Navbar() {
                         >
                             About
                         </Button>
-                        <Button
-                            key={2}
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 'auto', color: 'white', display: 'block', ":hover": {color: "gray"}}}
+                        <IconButton 
                             href="https://github.com/i-am-mai/parking-calculator"
-                        >
-                            Contribute
-                        </Button>
+                            onClick={handleCloseNavMenu}
+                            sx={{color: 'white', ":hover": {color: "gray"}, transition: '0.4s'}}
+                            >
+                            <GitHub></GitHub>
+                        </IconButton>
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -113,7 +113,9 @@ export default function Navbar() {
                             <Typography textAlign="center" component="a" href="/about">About</Typography>
                         </MenuItem>
                         <MenuItem key={2} onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center" component="a" href="https://github.com/i-am-mai/parking-calculator">Contribute</Typography>
+                            <IconButton href="https://github.com/i-am-mai/parking-calculator">
+                                <GitHub></GitHub>
+                            </IconButton>
                         </MenuItem>
                         </Menu>
                     </Box>

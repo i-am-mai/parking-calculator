@@ -45,7 +45,9 @@ export default function Sidebar({setShow, setBoundingBox, setParkingData, setIsL
         (
             way["amenity"="parking"](${bbox});
             relation["amenity"="parking"](${bbox});
-            way["highway"]["parking:lane:both"](${bbox});
+            way["highway"]["parking:lane:both"]["parking:lane:both"!~"no"](${bbox});
+            way["highway"]["parking:lane:right"]["parking:lane:right"!~"no"](${bbox});
+            way["highway"]["parking:lane:left"]["parking:lane:left"!~"no"](${bbox});
         );
         out body;
         >;
