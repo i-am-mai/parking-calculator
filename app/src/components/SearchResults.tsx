@@ -20,15 +20,12 @@ export default function SearchResults({ results, onClick }: SearchResultsProps) 
         event: React.MouseEvent<HTMLLIElement, MouseEvent>,
         index: number,
       ) => {
-        console.log(index);
         let bbox: LatLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(0, 0));
 
         if (results != null && index != null) {
             bbox = new LatLngBounds(new LatLng(Number(results[index]["boundingbox"][0]), Number(results[index]["boundingbox"][2])), new LatLng(Number(results[index]["boundingbox"][1]), Number(results[index]["boundingbox"][3])));
-            console.log(bbox);
         }
         onClick(bbox);
-        console.log(bbox);
     }
 
     const searchResults: JSX.Element[] = [];

@@ -30,16 +30,13 @@ export default function Map({show, setShow, boundingBox, setBoundingBox, parking
     }
     setSelectedArea(layer.getBounds());
     setBoundingBox(layer.getBounds());
-    console.log(layer.getBounds());
     previousLayer = layer;
   }
 
   function handleEdited(event: any) {
-    console.log(event.layers);
     const { layers } = event;
     setSelectedArea(layers.getLayers()[0].getBounds());
     setBoundingBox(layers.getLayers()[0].getBounds());
-    console.log(layers.getLayers()[0].getBounds());
     previousLayer = layers.getLayers()[0];
   }
 

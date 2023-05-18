@@ -23,7 +23,6 @@ export default function Sidebar({setShow, setBoundingBox, setParkingData, setIsL
         event.preventDefault();
         setSpinner(true);
         let query = (event.target as HTMLFormElement).search.value;
-        console.log(query);
 
         let url: URL = new URL("https://nominatim.openstreetmap.org/search?format=jsonv2");
         url.searchParams.append("q", query);
