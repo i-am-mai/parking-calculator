@@ -30,21 +30,15 @@ export default function Tutorial() {
                 <div className='carousel-card'>
                     <h2>How to use:</h2>
                     <p>First, locate the site that you want to find the parking area of.</p>
-                    <video width="100%" autoPlay loop>
-                        <source src='./videos/Step_1.mov'></source>
-                    </video>
+                    <img src="./videos/Step_1.webp" alt="Use the search bar" width="100%"/>
                 </div>
                 <div className='carousel-card'>
                     <p>Then, use the rectangle tool to bound the area where the parking area will be calculated.</p>
-                    <video width="100%" autoPlay loop>
-                        <source src='./videos/Step_2.mov'></source>
-                    </video>
+                    <img src="./videos/Step_2.webp" alt="Click the rectangle tool" width="100%"/>
                 </div>
                 <div className='carousel-card'>
                     <p>Finally, click calculate!</p>
-                    <video width="100%" autoPlay loop>
-                        <source src='./videos/Step_3.mov'></source>
-                    </video>
+                    <img src="./videos/Step_3.webp" alt="Click the calculate button" width="100%"/>
                 </div>
             </Carousel>
         </Dialog>
