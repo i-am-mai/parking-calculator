@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Map from '../components/Map';
 import Sidebar from '../components/Sidebar';
+import ParkingResults from '../components/ParkingResults';
 import './Home.css';
 import Tutorial from '../components/Tutorial';
 import { LatLngBounds, LatLng } from 'leaflet';
@@ -40,7 +41,8 @@ export default function Home() {
             <Tutorial></Tutorial>
             <div className="content">
                 <Sidebar setShow={updateShow} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setParkingData={updateParkingData} setIsLoading={updateIsLoading}/>
-                <Map show={show} setShow={updateShow} boundingBox={boundingBox} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setSelectedArea={updateSelectedArea} parkingData={parkingData} isLoading={isLoading}/>
+                <Map boundingBox={boundingBox} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setSelectedArea={updateSelectedArea} parkingData={parkingData} isLoading={isLoading}/>
+                <ParkingResults show={show} setShow={setShow} boundingBox={boundingBox} parkingData={parkingData}></ParkingResults>
             </div>
         </>
     );

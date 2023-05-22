@@ -25,7 +25,7 @@ export default function Tutorial() {
             <Carousel sx={{width: '350px'}} className='carousel' autoPlay={false} animation='fade'>
                 <div className='carousel-card'>
                     <h2>Welcome to the Parking Calculator!</h2>
-                    <p>This tool helps you find how much area parking takes up.</p>
+                    <p>This tool helps you find the area that parking uses.</p>
                 </div>
                 <div className='carousel-card'>
                     <h2>How to use:</h2>

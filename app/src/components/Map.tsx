@@ -1,16 +1,13 @@
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, useMap, GeoJSON, LayersControl, FeatureGroup, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, GeoJSON, LayersControl, FeatureGroup, Circle, LayerGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import "./Map.css";
 import { LatLngBounds } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
-import ParkingResults from './ParkingResults';
 import {CircularProgress, Backdrop} from '@mui/material';
 import { area, featureCollection, buffer, Feature } from '@turf/turf';
 
 type MapProps = {
-  show: boolean;
-  setShow: (show: boolean) => void;
   boundingBox: LatLngBounds;
   setBoundingBox: (bbox: LatLngBounds) => void;
   parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
@@ -19,9 +16,8 @@ type MapProps = {
   setSelectedArea: (bbox: LatLngBounds) => void;
 }
 
-export default function Map({show, setShow, boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
+export default function Map({boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
   let previousLayer: any = null;
-
 
   function handleCreated(event: any) {
     const { layer } = event;
@@ -118,18 +114,18 @@ export default function Map({show, setShow, boundingBox, setBoundingBox, parking
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />    
-        
-        {
-          parkingData != null && 
-          <LayersControl position="topright" collapsed={false}>
-            <LayersControl.Overlay name="Show parking" checked>
-              <GeoJSONLayer></GeoJSONLayer>
-            </LayersControl.Overlay>
-            <LayersControl.Overlay name="Show parking area as circle">
-              <CircleLayer></CircleLayer>
-            </LayersControl.Overlay>
-          </LayersControl> 
-        }
+        <LayersControl position="topright" collapsed={false}>
+          <LayersControl.Overlay name="Show parking" checked>
+            <LayerGroup>
+              <GeoJSONLayer />
+            </LayerGroup>
+          </LayersControl.Overlay>
+          <LayersControl.Overlay name="Show parking area as circle">
+            <LayerGroup>
+              <CircleLayer />
+            </LayerGroup>
+          </LayersControl.Overlay>
+        </LayersControl> 
 
         <FeatureGroup>
           <EditControl
@@ -156,7 +152,6 @@ export default function Map({show, setShow, boundingBox, setBoundingBox, parking
         </FeatureGroup>
         <MapWrapper></MapWrapper>
       </MapContainer>
-      <ParkingResults show={show} setShow={setShow} boundingBox={boundingBox} parkingData={parkingData}></ParkingResults>
       <LoadingLayer></LoadingLayer>
     </>
   );
