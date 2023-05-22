@@ -3,4 +3,12 @@
 }
 .carousel {
     padding: 1em;
+    width: 400px;
+}
+
+@media only screen and (max-width: 768px) {
+    .carousel {
+        padding: 1em;
+        width: 300px;
+    }
 }

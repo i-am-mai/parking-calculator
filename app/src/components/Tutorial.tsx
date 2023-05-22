@@ -22,7 +22,7 @@ export default function Tutorial() {
             >
                 <CloseIcon />
             </IconButton>
-            <Carousel sx={{width: '350px'}} className='carousel' autoPlay={false} animation='fade'>
+            <Carousel className='carousel' autoPlay={false} animation='fade'>
                 <div className='carousel-card'>
                     <h2>Welcome to the Parking Calculator!</h2>
                     <p>This tool helps you find the area that parking uses.</p>
