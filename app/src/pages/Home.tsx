@@ -15,6 +15,7 @@ export default function Home() {
     const [selectedArea, setSelectedArea] = useState<LatLngBounds>(selectedBounds);
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(true);
+    const [circleCenter, setCircleCenter] = useState(new LatLng(0, 0));
 
     function updateShow(show: boolean) {
         setShow(show);
@@ -36,12 +37,16 @@ export default function Home() {
         setIsLoading(isLoading);
     }
 
+    function updateCircleCenter(center: LatLng) {
+        setCircleCenter(center);
+    }
+
     return (
         <>
             <Tutorial></Tutorial>
             <div className="content">
-                <Sidebar setShow={updateShow} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setParkingData={updateParkingData} setIsLoading={updateIsLoading}/>
-                <Map boundingBox={boundingBox} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setSelectedArea={updateSelectedArea} parkingData={parkingData} isLoading={isLoading}/>
+                <Sidebar setCircleCenter={updateCircleCenter} setShow={updateShow} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setParkingData={updateParkingData} setIsLoading={updateIsLoading}/>
+                <Map circleCenter={circleCenter} boundingBox={boundingBox} setBoundingBox={updateBoundingBox} selectedArea={selectedArea} setSelectedArea={updateSelectedArea} parkingData={parkingData} isLoading={isLoading}/>
                 <ParkingResults show={show} setShow={setShow} boundingBox={boundingBox} parkingData={parkingData}></ParkingResults>
             </div>
         </>

@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { TextField, CircularProgress, Button } from '@mui/material';
 import SearchResults from './SearchResults';
 import "./Sidebar.css"
-import { LatLngBounds } from 'leaflet';
+import { LatLng, LatLngBounds } from 'leaflet';
 import osmtogeojson from 'osmtogeojson';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 
 type SidebarProps = {
+    setCircleCenter: (center: LatLng) => void;
     setShow: (show: boolean) => void;
     setBoundingBox: (bbox: LatLngBounds) => void;
     setParkingData: (parkingData : FeatureCollection<Geometry, GeoJsonProperties>) => void;
@@ -14,7 +15,7 @@ type SidebarProps = {
     selectedArea: LatLngBounds;
 }
 
-export default function Sidebar({setShow, setBoundingBox, setParkingData, setIsLoading, selectedArea}: SidebarProps) {
+export default function Sidebar({setCircleCenter, setShow, setBoundingBox, setParkingData, setIsLoading, selectedArea}: SidebarProps) {
     const [data, setData] = useState([]);
     const [spinner, setSpinner] = useState(false);
 
@@ -59,6 +60,7 @@ export default function Sidebar({setShow, setBoundingBox, setParkingData, setIsL
                 setParkingData(geoJSONData);
                 setIsLoading(false);
                 setShow(true);
+                setCircleCenter(selectedArea.getCenter());
             });
     }
 

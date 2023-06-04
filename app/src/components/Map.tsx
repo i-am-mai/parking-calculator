@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, GeoJSON, LayersControl, FeatureGroup, Circle, LayerGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import "./Map.css";
-import { LatLngBounds } from 'leaflet';
+import { LatLng, LatLngBounds } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import {CircularProgress, Backdrop} from '@mui/material';
 import { area, featureCollection, buffer, Feature } from '@turf/turf';
 
 type MapProps = {
+  circleCenter: LatLng;
   boundingBox: LatLngBounds;
   setBoundingBox: (bbox: LatLngBounds) => void;
   parkingData: FeatureCollection<Geometry, GeoJsonProperties> | null;
@@ -16,7 +17,7 @@ type MapProps = {
   setSelectedArea: (bbox: LatLngBounds) => void;
 }
 
-export default function Map({boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
+export default function Map({circleCenter, boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
   let previousLayer: any = null;
 
   function handleCreated(event: any) {
@@ -91,7 +92,7 @@ export default function Map({boundingBox, setBoundingBox, parkingData, isLoading
     if (parkingData != null) {
       let parkingArea = calculateParkingArea(parkingData);
       let radius = Math.sqrt(parkingArea / Math.PI);
-      let center = selectedArea.getCenter();
+      let center = circleCenter;
       return <Circle radius={radius} center={center} color="purple" opacity={0.5}></Circle>
     }
     else {
