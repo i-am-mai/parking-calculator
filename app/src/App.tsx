@@ -7,18 +7,22 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { Analytics } from '@vercel/analytics/react';
 
 
 
 function App() {
   return (
-    <div className="main">
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/about" element={<About/>}/>
-      </Routes>
-    </div>
+    <>
+      <div className="main">
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/about" element={<About/>}/>
+        </Routes>
+      </div>
+      <Analytics />
+    </>
   );
 }
 
