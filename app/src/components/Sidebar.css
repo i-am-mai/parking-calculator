@@ -9,6 +9,7 @@
 .form-input {
     display: flex;
     gap: 0.5em;
+    margin-top: 0.3em;
 }
 
 .calculate {

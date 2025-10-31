@@ -3,6 +3,8 @@
     flex: 1 1 auto;
     gap: 1em;
     margin: 1em;
+    height: calc(100vh - 2em);
+    overflow: hidden;
 }
 
 

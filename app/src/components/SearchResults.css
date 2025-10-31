@@ -1,8 +1,9 @@
 .results {
     overflow-y: scroll;
     overflow-x: hidden;
-    display: inline-block;
-    height: 480px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     font-size: 0.9rem;
@@ -11,8 +12,8 @@
 @media only screen and (max-width: 768px) {
     .results {
         display: flex;
+        max-height: 200px;
         flex-direction: column !important;
-        height: 200px;
         margin: 0em;
         overflow: scroll;
     }
