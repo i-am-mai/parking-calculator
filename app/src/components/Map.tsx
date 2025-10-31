@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, GeoJSON, LayersControl, FeatureGroup, Circle, LayerGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import "./Map.css";
-import { LatLng, LatLngBounds } from 'leaflet';
+import { LatLng, LatLngBounds, Layer, LeafletEvent } from 'leaflet';
+import 'leaflet-draw';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import {CircularProgress, Backdrop} from '@mui/material';
 import { area, featureCollection, buffer, Feature } from '@turf/turf';
@@ -18,9 +19,9 @@ type MapProps = {
 }
 
 export default function Map({circleCenter, boundingBox, setBoundingBox, parkingData, isLoading, selectedArea, setSelectedArea}: MapProps) {
-  let previousLayer: any = null;
+  let previousLayer: Layer | null = null;
 
-  function handleCreated(event: any) {
+  function handleCreated(event: LeafletEvent & { layer: Layer }) {
     const { layer } = event;
     if (previousLayer != null) {
       previousLayer.remove();
@@ -30,7 +31,7 @@ export default function Map({circleCenter, boundingBox, setBoundingBox, parkingD
     previousLayer = layer;
   }
 
-  function handleEdited(event: any) {
+  function handleEdited(event: LeafletEvent & { layers: L.FeatureGroup }) {
     const { layers } = event;
     setSelectedArea(layers.getLayers()[0].getBounds());
     setBoundingBox(layers.getLayers()[0].getBounds());
