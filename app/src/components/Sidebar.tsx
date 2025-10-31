@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { TextField, CircularProgress, Button } from '@mui/material';
+import { TextField, CircularProgress, Button, Alert } from '@mui/material';
 import SearchResults from './SearchResults';
 import "./Sidebar.css"
 import { LatLng, LatLngBounds } from 'leaflet';
 import osmtogeojson from 'osmtogeojson';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
+import { fetchWithTimeoutAndRetry } from '../utils/api';
 
 type SidebarProps = {
     setCircleCenter: (center: LatLng) => void;
@@ -18,25 +19,38 @@ type SidebarProps = {
 export default function Sidebar({setCircleCenter, setShow, setBoundingBox, setParkingData, setIsLoading, selectedArea}: SidebarProps) {
     const [data, setData] = useState([]);
     const [spinner, setSpinner] = useState(false);
+    const [searchError, setSearchError] = useState<string | null>(null);
+    const [overpassError, setOverpassError] = useState<string | null>(null);
 
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setSpinner(true);
+        setSearchError(null);
         let query = (event.target as HTMLFormElement).search.value;
 
         let url: URL = new URL("https://nominatim.openstreetmap.org/search?format=jsonv2");
         url.searchParams.append("q", query);
 
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setData(data))
-            .then(() => setSpinner(false));
+        try {
+            const response = await fetchWithTimeoutAndRetry(url, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }, { timeoutMs: 10000, retries: 2, backoffMs: 500 });
+            const json = await response.json();
+            setData(json);
+        } catch (err) {
+            setSearchError('Failed to fetch search results. Please try again.');
+        } finally {
+            setSpinner(false);
+        }
     }
 
-    function handleCalculateParking(event: React.MouseEvent<HTMLButtonElement>) {
+    async function handleCalculateParking(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         setIsLoading(true);
+        setOverpassError(null);
         let bbox: string = String(selectedArea.getSouth()) + "," + String(selectedArea.getWest()) + "," + String(selectedArea.getNorth())+ "," + String(selectedArea.getEast());
         const url = new URL("https://overpass-api.de/api/interpreter");
 
@@ -53,15 +67,24 @@ export default function Sidebar({setCircleCenter, setShow, setBoundingBox, setPa
         >;
         out skel qt;`;
         url.searchParams.append('data', parkingQuery);
-        fetch(url)
-            .then((response: Response) => response.json())
-            .then((data : JSON) => {
-                let geoJSONData: FeatureCollection<Geometry, GeoJsonProperties> = osmtogeojson(data);
-                setParkingData(geoJSONData);
-                setIsLoading(false);
-                setShow(true);
-                setCircleCenter(selectedArea.getCenter());
-            });
+
+        try {
+            const response = await fetchWithTimeoutAndRetry(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }, { timeoutMs: 30000, retries: 2, backoffMs: 800 });
+            const json: JSON = await response.json();
+            let geoJSONData: FeatureCollection<Geometry, GeoJsonProperties> = osmtogeojson(json);
+            setParkingData(geoJSONData);
+            setShow(true);
+            setCircleCenter(selectedArea.getCenter());
+        } catch (err) {
+            setOverpassError('Overpass API request failed or timed out. Try a smaller area or retry.');
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     let results;
@@ -79,7 +102,9 @@ export default function Sidebar({setCircleCenter, setShow, setBoundingBox, setPa
                 <TextField variant="outlined" size="small" fullWidth label="Search for a location" name="search" placeholder="ex. New York, NY" id="search"></TextField>
                 <Button variant="outlined" type="submit">Search</Button>    
             </form>
+            {searchError && <Alert severity="error" sx={{ mt: 1 }}>{searchError}</Alert>}
             {results}
+            {overpassError && <Alert severity="error" sx={{ mb: 1 }}>{overpassError}</Alert>}
             <Button variant="contained" className="calculate" onClick={handleCalculateParking}>Calculate parking area</Button>
         </div>
     );
