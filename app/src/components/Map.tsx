@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, GeoJSON, LayersControl, FeatureGroup, Circle, LayerGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import "./Map.css";
-import { LatLng, LatLngBounds } from 'leaflet';
 import { FeatureCollection, Geometry, GeoJsonProperties } from 'geojson';
 import {CircularProgress, Backdrop} from '@mui/material';
 import { area, featureCollection, buffer, Feature } from '@turf/turf';
