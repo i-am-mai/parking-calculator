@@ -46,7 +46,7 @@ export default function Map({ circleCenter, boundingBox, setBoundingBox, parking
     const map = useMap();
     useEffect(() => {
       map.fitBounds(boundingBox);
-    }, [map, boundingBox]);
+    }, [map]);
     return null;
   }
 
